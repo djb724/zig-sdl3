@@ -107,28 +107,31 @@ pub const PackedLayout = enum(u4) {
     @"1010102",
 };
 pub const PixelFlag = enum(u4) {
-    four_cc = 0,
     non_four_cc = 1,
+    _,
 };
 
 pub const PixelFormatFourCC = packed struct(u32) {
-    abcd: [4]u8,
-    const yv12: PixelFormatFourCC = @bitCast(0x32315659);
-    const iyuv: PixelFormatFourCC = @bitCast(0x56555949);
-    const yuy2: PixelFormatFourCC = @bitCast(0x32595559);
-    const uyvy: PixelFormatFourCC = @bitCast(0x59565955);
-    const yvyu: PixelFormatFourCC = @bitCast(0x55595659);
-    const nv12: PixelFormatFourCC = @bitCast(0x3231564e);
-    const nv21: PixelFormatFourCC = @bitCast(0x3132564e);
-    const p010: PixelFormatFourCC = @bitCast(0x30313050);
-    const external_oes: PixelFormatFourCC = @bitCast(0x2053454f);
-    const mjpg: PixelFormatFourCC = @bitCast(0x47504a4d);
+    a: u8,
+    b: u8,
+    c: u8,
+    d: u8,
+    pub const yv12: PixelFormatFourCC = @bitCast(@as(u32, 0x32315659));
+    pub const iyuv: PixelFormatFourCC = @bitCast(@as(u32, 0x56555949));
+    pub const yuy2: PixelFormatFourCC = @bitCast(@as(u32, 0x32595559));
+    pub const uyvy: PixelFormatFourCC = @bitCast(@as(u32, 0x59565955));
+    pub const yvyu: PixelFormatFourCC = @bitCast(@as(u32, 0x55595659));
+    pub const nv12: PixelFormatFourCC = @bitCast(@as(u32, 0x3231564e));
+    pub const nv21: PixelFormatFourCC = @bitCast(@as(u32, 0x3132564e));
+    pub const p010: PixelFormatFourCC = @bitCast(@as(u32, 0x30313050));
+    pub const external_oes: PixelFormatFourCC = @bitCast(@as(u32, 0x2053454f));
+    pub const mjpg: PixelFormatFourCC = @bitCast(@as(u32, 0x47504a4d));
 };
 pub const PixelFormatNonFourCC = packed struct(u32) {
     bytes: u8,
     bits: u8,
     layout: PackedLayout,
-    order: union {
+    order: packed union {
         bitmap_order: BitmapOrder,
         packed_order: PackedOrder,
         array_order: ArrayOrder,
@@ -137,61 +140,61 @@ pub const PixelFormatNonFourCC = packed struct(u32) {
     // specifies that this is non-FourCC
     flag: PixelFlag = .non_four_cc,
 
-    const unknown: PixelFormatNonFourCC = @bitCast(0);
-    const index1lsb: PixelFormatNonFourCC = @bitCast(0x11100100);
-    const index1msb: PixelFormatNonFourCC = @bitCast(0x11200100);
-    const index2lsb: PixelFormatNonFourCC = @bitCast(0x1c100200);
-    const index2msb: PixelFormatNonFourCC = @bitCast(0x1c200200);
-    const index4lsb: PixelFormatNonFourCC = @bitCast(0x12100400);
-    const index4msb: PixelFormatNonFourCC = @bitCast(0x12200400);
-    const index8: PixelFormatNonFourCC = @bitCast(0x13000801);
-    const rgb332: PixelFormatNonFourCC = @bitCast(0x14110801);
-    const xrgb4444: PixelFormatNonFourCC = @bitCast(0x15120c02);
-    const xbgr4444: PixelFormatNonFourCC = @bitCast(0x15520c02);
-    const xrgb1555: PixelFormatNonFourCC = @bitCast(0x15130f02);
-    const xbgr1555: PixelFormatNonFourCC = @bitCast(0x15530f02);
-    const argb4444: PixelFormatNonFourCC = @bitCast(0x15321002);
-    const rgba4444: PixelFormatNonFourCC = @bitCast(0x15421002);
-    const abgr4444: PixelFormatNonFourCC = @bitCast(0x15721002);
-    const bgra4444: PixelFormatNonFourCC = @bitCast(0x15821002);
-    const argb1555: PixelFormatNonFourCC = @bitCast(0x15331002);
-    const rgba5551: PixelFormatNonFourCC = @bitCast(0x15441002);
-    const abgr1555: PixelFormatNonFourCC = @bitCast(0x15731002);
-    const bgra5551: PixelFormatNonFourCC = @bitCast(0x15841002);
-    const rgb565: PixelFormatNonFourCC = @bitCast(0x15151002);
-    const bgr565: PixelFormatNonFourCC = @bitCast(0x15551002);
-    const rgb24: PixelFormatNonFourCC = @bitCast(0x17101803);
-    const bgr24: PixelFormatNonFourCC = @bitCast(0x17401803);
-    const xrgb8888: PixelFormatNonFourCC = @bitCast(0x16161804);
-    const rgbx8888: PixelFormatNonFourCC = @bitCast(0x16261804);
-    const xbgr8888: PixelFormatNonFourCC = @bitCast(0x16561804);
-    const bgrx8888: PixelFormatNonFourCC = @bitCast(0x16661804);
-    const argb8888: PixelFormatNonFourCC = @bitCast(0x16362004);
-    const rgba8888: PixelFormatNonFourCC = @bitCast(0x16462004);
-    const abgr8888: PixelFormatNonFourCC = @bitCast(0x16762004);
-    const bgra8888: PixelFormatNonFourCC = @bitCast(0x16862004);
-    const xrgb2101010: PixelFormatNonFourCC = @bitCast(0x16172004);
-    const xbgr2101010: PixelFormatNonFourCC = @bitCast(0x16572004);
-    const argb2101010: PixelFormatNonFourCC = @bitCast(0x16372004);
-    const abgr2101010: PixelFormatNonFourCC = @bitCast(0x16772004);
-    const rgb48: PixelFormatNonFourCC = @bitCast(0x18103006);
-    const bgr48: PixelFormatNonFourCC = @bitCast(0x18403006);
-    const rgba64: PixelFormatNonFourCC = @bitCast(0x18204008);
-    const argb64: PixelFormatNonFourCC = @bitCast(0x18304008);
-    const bgra64: PixelFormatNonFourCC = @bitCast(0x18504008);
-    const abgr64: PixelFormatNonFourCC = @bitCast(0x18604008);
-    const rgb48_float: PixelFormatNonFourCC = @bitCast(0x1a103006);
-    const bgr48_float: PixelFormatNonFourCC = @bitCast(0x1a403006);
-    const rgba64_float: PixelFormatNonFourCC = @bitCast(0x1a204008);
-    const argb64_float: PixelFormatNonFourCC = @bitCast(0x1a304008);
-    const bgra64_float: PixelFormatNonFourCC = @bitCast(0x1a504008);
-    const abgr64_float: PixelFormatNonFourCC = @bitCast(0x1a604008);
-    const rgb96_float: PixelFormatNonFourCC = @bitCast(0x1b10600c);
-    const bgr96_float: PixelFormatNonFourCC = @bitCast(0x1b40600c);
-    const rgba128_float: PixelFormatNonFourCC = @bitCast(0x1b208010);
-    const argb128_float: PixelFormatNonFourCC = @bitCast(0x1b308010);
-    const bgra128_float: PixelFormatNonFourCC = @bitCast(0x1b508010);
-    const abgr128_float: PixelFormatNonFourCC = @bitCast(0x1b608010);
+    pub const unknown: PixelFormatNonFourCC = @bitCast(@as(u32, 0));
+    pub const index1lsb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x11100100));
+    pub const index1msb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x11200100));
+    pub const index2lsb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1c100200));
+    pub const index2msb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1c200200));
+    pub const index4lsb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x12100400));
+    pub const index4msb: PixelFormatNonFourCC = @bitCast(@as(u32, 0x12200400));
+    pub const index8: PixelFormatNonFourCC = @bitCast(@as(u32, 0x13000801));
+    pub const rgb332: PixelFormatNonFourCC = @bitCast(@as(u32, 0x14110801));
+    pub const xrgb4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15120c02));
+    pub const xbgr4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15520c02));
+    pub const xrgb1555: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15130f02));
+    pub const xbgr1555: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15530f02));
+    pub const argb4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15321002));
+    pub const rgba4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15421002));
+    pub const abgr4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15721002));
+    pub const bgra4444: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15821002));
+    pub const argb1555: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15331002));
+    pub const rgba5551: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15441002));
+    pub const abgr1555: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15731002));
+    pub const bgra5551: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15841002));
+    pub const rgb565: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15151002));
+    pub const bgr565: PixelFormatNonFourCC = @bitCast(@as(u32, 0x15551002));
+    pub const rgb24: PixelFormatNonFourCC = @bitCast(@as(u32, 0x17101803));
+    pub const bgr24: PixelFormatNonFourCC = @bitCast(@as(u32, 0x17401803));
+    pub const xrgb8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16161804));
+    pub const rgbx8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16261804));
+    pub const xbgr8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16561804));
+    pub const bgrx8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16661804));
+    pub const argb8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16362004));
+    pub const rgba8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16462004));
+    pub const abgr8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16762004));
+    pub const bgra8888: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16862004));
+    pub const xrgb2101010: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16172004));
+    pub const xbgr2101010: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16572004));
+    pub const argb2101010: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16372004));
+    pub const abgr2101010: PixelFormatNonFourCC = @bitCast(@as(u32, 0x16772004));
+    pub const rgb48: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18103006));
+    pub const bgr48: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18403006));
+    pub const rgba64: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18204008));
+    pub const argb64: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18304008));
+    pub const bgra64: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18504008));
+    pub const abgr64: PixelFormatNonFourCC = @bitCast(@as(u32, 0x18604008));
+    pub const rgb48_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a103006));
+    pub const bgr48_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a403006));
+    pub const rgba64_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a204008));
+    pub const argb64_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a304008));
+    pub const bgra64_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a504008));
+    pub const abgr64_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1a604008));
+    pub const rgb96_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b10600c));
+    pub const bgr96_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b40600c));
+    pub const rgba128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b208010));
+    pub const argb128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b308010));
+    pub const bgra128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b508010));
+    pub const abgr128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b608010));
 };
 
 /// Pixel format.
@@ -227,7 +230,7 @@ pub const PixelFormatNonFourCC = packed struct(u32) {
 /// appropriate 8888 encoding for the current platform. For example, RGBA32 is
 /// an alias for ABGR8888 on little-endian CPUs like x86, or an alias for
 /// RGBA8888 on big-endian CPUs.
-pub const PixelFormat = union {
+pub const PixelFormat = packed union {
     four_cc: PixelFormatFourCC,
     non_four_cc: PixelFormatNonFourCC,
 
@@ -236,7 +239,7 @@ pub const PixelFormat = union {
     }
     pub inline fn isFourCC(self: PixelFormat) bool {
         const format: u32 = @bitCast(self);
-        return (format & 0xF0000000) == 0x10000000;
+        return (format & 0xF0000000) != 0x10000000;
     }
     pub inline fn bytesPerPixel(self: PixelFormat) u32 {
         if (self.isFourCC()) {
@@ -293,73 +296,73 @@ pub const PixelFormat = union {
         return false;
     }
 
-    const unknown: PixelFormat = @bitCast(0);
+    pub const unknown: PixelFormat = @bitCast(@as(u32, 0));
 
-    const yv12: PixelFormat = .{ .four_cc = PixelFormatFourCC.yv12 };
-    const iyuv: PixelFormat = .{ .four_cc = PixelFormatFourCC.iyuv };
-    const yuy2: PixelFormat = .{ .four_cc = PixelFormatFourCC.yuy2 };
-    const uyvy: PixelFormat = .{ .four_cc = PixelFormatFourCC.uyvy };
-    const yvyu: PixelFormat = .{ .four_cc = PixelFormatFourCC.yvyu };
-    const nv12: PixelFormat = .{ .four_cc = PixelFormatFourCC.nv12 };
-    const nv21: PixelFormat = .{ .four_cc = PixelFormatFourCC.nv21 };
-    const p010: PixelFormat = .{ .four_cc = PixelFormatFourCC.p010 };
-    const external_oes: PixelFormat = .{ .four_cc = PixelFormatFourCC.external_oes };
-    const mjpg: PixelFormat = .{ .four_cc = PixelFormatFourCC.mjpg };
+    pub const yv12: PixelFormat = .{ .four_cc = PixelFormatFourCC.yv12 };
+    pub const iyuv: PixelFormat = .{ .four_cc = PixelFormatFourCC.iyuv };
+    pub const yuy2: PixelFormat = .{ .four_cc = PixelFormatFourCC.yuy2 };
+    pub const uyvy: PixelFormat = .{ .four_cc = PixelFormatFourCC.uyvy };
+    pub const yvyu: PixelFormat = .{ .four_cc = PixelFormatFourCC.yvyu };
+    pub const nv12: PixelFormat = .{ .four_cc = PixelFormatFourCC.nv12 };
+    pub const nv21: PixelFormat = .{ .four_cc = PixelFormatFourCC.nv21 };
+    pub const p010: PixelFormat = .{ .four_cc = PixelFormatFourCC.p010 };
+    pub const external_oes: PixelFormat = .{ .four_cc = PixelFormatFourCC.external_oes };
+    pub const mjpg: PixelFormat = .{ .four_cc = PixelFormatFourCC.mjpg };
 
-    const index1lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index1lsb };
-    const index1msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index1msb };
-    const index2lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index2lsb };
-    const index2msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index2msb };
-    const index4lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index4lsb };
-    const index4msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index4msb };
-    const index8: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index8 };
-    const rgb332: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb332 };
-    const xrgb4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb4444 };
-    const xbgr4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr4444 };
-    const xrgb1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb1555 };
-    const xbgr1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr1555 };
-    const argb4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb4444 };
-    const rgba4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba4444 };
-    const abgr4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr4444 };
-    const bgra4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra4444 };
-    const argb1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb1555 };
-    const rgba5551: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba5551 };
-    const abgr1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr1555 };
-    const bgra5551: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra5551 };
-    const rgb565: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb565 };
-    const bgr565: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr565 };
-    const rgb24: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb24 };
-    const bgr24: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr24 };
-    const xrgb8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb8888 };
-    const rgbx8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgbx8888 };
-    const xbgr8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr8888 };
-    const bgrx8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgrx8888 };
-    const argb8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb8888 };
-    const rgba8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba8888 };
-    const abgr8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr8888 };
-    const bgra8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra8888 };
-    const xrgb2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb2101010 };
-    const xbgr2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr2101010 };
-    const argb2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb2101010 };
-    const abgr2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr2101010 };
-    const rgb48: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb48 };
-    const bgr48: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr48 };
-    const rgba64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba64 };
-    const argb64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb64 };
-    const bgra64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra64 };
-    const abgr64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr64 };
-    const rgb48_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb48_float };
-    const bgr48_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr48_float };
-    const rgba64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba64_float };
-    const argb64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb64_float };
-    const bgra64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra64_float };
-    const abgr64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr64_float };
-    const rgb96_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb96_float };
-    const bgr96_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr96_float };
-    const rgba128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba128_float };
-    const argb128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb128_float };
-    const bgra128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra128_float };
-    const abgr128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr128_float };
+    pub const index1lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index1lsb };
+    pub const index1msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index1msb };
+    pub const index2lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index2lsb };
+    pub const index2msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index2msb };
+    pub const index4lsb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index4lsb };
+    pub const index4msb: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index4msb };
+    pub const index8: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.index8 };
+    pub const rgb332: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb332 };
+    pub const xrgb4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb4444 };
+    pub const xbgr4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr4444 };
+    pub const xrgb1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb1555 };
+    pub const xbgr1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr1555 };
+    pub const argb4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb4444 };
+    pub const rgba4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba4444 };
+    pub const abgr4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr4444 };
+    pub const bgra4444: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra4444 };
+    pub const argb1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb1555 };
+    pub const rgba5551: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba5551 };
+    pub const abgr1555: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr1555 };
+    pub const bgra5551: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra5551 };
+    pub const rgb565: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb565 };
+    pub const bgr565: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr565 };
+    pub const rgb24: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb24 };
+    pub const bgr24: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr24 };
+    pub const xrgb8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb8888 };
+    pub const rgbx8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgbx8888 };
+    pub const xbgr8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr8888 };
+    pub const bgrx8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgrx8888 };
+    pub const argb8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb8888 };
+    pub const rgba8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba8888 };
+    pub const abgr8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr8888 };
+    pub const bgra8888: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra8888 };
+    pub const xrgb2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xrgb2101010 };
+    pub const xbgr2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.xbgr2101010 };
+    pub const argb2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb2101010 };
+    pub const abgr2101010: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr2101010 };
+    pub const rgb48: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb48 };
+    pub const bgr48: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr48 };
+    pub const rgba64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba64 };
+    pub const argb64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb64 };
+    pub const bgra64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra64 };
+    pub const abgr64: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr64 };
+    pub const rgb48_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb48_float };
+    pub const bgr48_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr48_float };
+    pub const rgba64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba64_float };
+    pub const argb64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb64_float };
+    pub const bgra64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra64_float };
+    pub const abgr64_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr64_float };
+    pub const rgb96_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgb96_float };
+    pub const bgr96_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgr96_float };
+    pub const rgba128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.rgba128_float };
+    pub const argb128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.argb128_float };
+    pub const bgra128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.bgra128_float };
+    pub const abgr128_float: PixelFormat = .{ .non_four_cc = PixelFormatNonFourCC.abgr128_float };
 };
 
 // TODO: add these
@@ -453,8 +456,8 @@ pub const ChromaLocation = enum(u4) {
     center,
     top_left,
 };
-/// packed struct representing the ColorSpace enum contents
-pub const ColorSpace = packed struct(u32) {
+/// packed struct representing the Colorspace enum contents
+pub const Colorspace = packed struct(u32) {
     matrix: MatrixCoefficients,
     transfer: TransferCharacteristics,
     primaries: ColorPrimaries,
@@ -463,8 +466,8 @@ pub const ColorSpace = packed struct(u32) {
     range: ColorRange,
     @"type": ColorType,
 
-    const unknown: ColorSpace = @bitCast(0);
-    const srgb: ColorSpace = .{
+    pub const unknown: Colorspace = @bitCast(@as(u32, 0));
+    pub const srgb: Colorspace = .{
         .@"type" = .rgb,
         .range = .full,
         .primaries = .bt709,
@@ -472,7 +475,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .identity,
         .chroma = .none,
     };
-    const srgb_linear: ColorSpace = .{
+    pub const srgb_linear: Colorspace = .{
         .@"type" = .rgb,
         .range = .full,
         .primaries = .bt709,
@@ -480,7 +483,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .identity,
         .chroma = .none,
     };
-    const hdr10: ColorSpace = .{
+    pub const hdr10: Colorspace = .{
         .@"type" = .rgb,
         .range = .full,
         .primaries = .bt2020,
@@ -488,7 +491,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .identity,
         .chroma = .none,
     };
-    const jpeg: ColorSpace = .{
+    pub const jpeg: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .full,
         .primaries = .bt709,
@@ -496,7 +499,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt601,
         .chroma = .none
     };
-    const bt601_limited: ColorSpace = .{
+    pub const bt601_limited: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .limited,
         .primaries = .bt601,
@@ -504,7 +507,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt601,
         .chroma = .left,
     };
-    const bt601_full: ColorSpace = .{
+    pub const bt601_full: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .full,
         .primaries = .bt601,
@@ -512,7 +515,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt601,
         .chroma = .left,
     };
-    const bt709_limited: ColorSpace = .{
+    pub const bt709_limited: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .limited,
         .primaries = .bt709,
@@ -520,7 +523,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt709,
         .chroma = .left,
     };
-    const bt709_full: ColorSpace = .{
+    pub const bt709_full: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .full,
         .primaries = .bt709,
@@ -528,7 +531,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt709,
         .chroma = .left,
     };
-    const bt2020_limited: ColorSpace = .{
+    pub const bt2020_limited: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .limited,
         .primaries = .bt2020,
@@ -536,7 +539,7 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt2020_ncl,
         .chroma = .left,
     };
-    const bt2020_full: ColorSpace = .{
+    pub const bt2020_full: Colorspace = .{
         .@"type" = .ycbcr,
         .range = .full,
         .primaries = .bt2020,
@@ -544,27 +547,27 @@ pub const ColorSpace = packed struct(u32) {
         .matrix = .bt2020_ncl,
         .chroma = .left,
     };
-    const rgb_default = ColorSpace.srgb;
-    const yuv_default = ColorSpace.bt601_limited;
+    pub const rgb_default = Colorspace.srgb;
+    pub const yuv_default = Colorspace.bt601_limited;
 
-    pub inline fn isMatrixBt601(cspace: ColorSpace) bool {
-        return cspace.matrix == .bt601 or cspace.matrix == .bt470bg;
+    pub inline fn isMatrixBt601(self: Colorspace) bool {
+        return self.matrix == .bt601 or self.matrix == .bt470bg;
     }
-    pub inline fn isMatrixBt709(cspace: ColorSpace) bool {
-        return cspace.matrix == .bt709;
+    pub inline fn isMatrixBt709(self: Colorspace) bool {
+        return self.matrix == .bt709;
     }
-    pub inline fn isMatrixBt2020Ncl(cspace: ColorSpace) bool {
-        return cspace.matrix == .bt2020_ncl;
+    pub inline fn isMatrixBt2020Ncl(self: Colorspace) bool {
+        return self.matrix == .bt2020_ncl;
     }
-    pub inline fn isLimitedRange(cspace: ColorSpace) bool {
-        return cspace.range != .full;
+    pub inline fn isLimitedRange(self: Colorspace) bool {
+        return self.range != .full;
     }
-    pub inline fn isFullRange(cspace: ColorSpace) bool {
-        return cspace.range == .full;
+    pub inline fn isFullRange(self: Colorspace) bool {
+        return self.range == .full;
     }
 };
 
-pub const Color = packed struct(u32) {
+pub const SDL_Color = extern struct {
     r: u8,
     g: u8,
     b: u8,
@@ -578,12 +581,12 @@ pub const SDL_FColor = extern struct {
 };
 pub const SDL_Palette = extern struct {
     ncolors: c_int,
-    colors: [*]Color,
+    colors: [*]SDL_Color,
     version: u32,
     refcount: c_int,
 };
 pub const SDL_PixelFormatDetails = extern struct {
-    format: PixelFormat,
+    format: u32, // PixelFormat
     bits_per_pixel: u8,
     bytes_per_pixel: u8,
     padding: [2]u8,
@@ -606,7 +609,7 @@ pub extern fn SDL_GetMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_ma
 pub extern fn SDL_GetPixelFormatForMasks(bpp: c_int, r_mask: u32, g_mask: u32, b_mask: u32, a_mask: u32) PixelFormat; 
 pub extern fn SDL_GetPixelFormatDetails(format: PixelFormat) ?*const SDL_PixelFormatDetails;
 pub extern fn SDL_CreatePalette(ncolors: c_int) ?*SDL_Palette;
-pub extern fn SDL_SetPaletteColors(palette: ?*SDL_Palette, colors: [*]const Color, first_color: c_int, ncolors: c_int) bool;
+pub extern fn SDL_SetPaletteColors(palette: ?*SDL_Palette, colors: [*]const SDL_Color, first_color: c_int, ncolors: c_int) bool;
 pub extern fn SDL_DestroyPalette(palette: ?*SDL_Palette) void;
 pub extern fn SDL_MapRGB(format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8) u32;
 pub extern fn SDL_MapRGBA(format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8, a: u8) u32;

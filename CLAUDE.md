@@ -42,8 +42,6 @@ These are general rules of thumb; if it makes sense to do something different, d
 
 Do not include empty lines inside of structs or other codeblocks. Only use it to break up categorically different blocks.
 
-Avoid using c_int. Use zig's integer types when it is clear which one to use. use c_int only when it is unclear.
-
 ## Goal
 
 SDL3 is a C library and your job is to expose all functionality in canonical zig.
@@ -74,21 +72,15 @@ would result in:
 ``` zig
 pub const InitFlags = packed struct(u32) {
     _b0: u4 = 0,
-    // implies .events
     audio: bool = false,
-    // implies .events, should be initialized in the main thread
     video: bool = false,
     _b6: u3 = 0,
-    // implies .events
     joystick: bool = false,
     _b10: u2 = 0,
     haptic: bool = false,
-    // implies .events
     gamepad: bool = false,
     events: bool = false,
-    // implies .events
     sensor: bool = false,
-    // implies .events
     camera: bool = false,
     _reserved: u15 = 0,
     pub fn toInt(self: InitFlags) u32 {
@@ -115,5 +107,4 @@ extern fn SDL_Init(flags: InitFlags) bool;
 pub const init = SDL_Init;
 ```
 
-Place all renames with pub const at the bottom of the final file.
-
+All types, namespaces, and function names should have the SDL_ prefix removed when exporting from the root module.
