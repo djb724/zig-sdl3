@@ -24,7 +24,5 @@ pub fn main(init: std.process.Init) void {
         return;
     }
 
-    sdl.log("", ...)
-
     std.debug.print("Success.\n", .{});
 }
