@@ -2,6 +2,7 @@ pub const init_ = @import("init.zig");
 pub const pixels = @import("pixels.zig");
 pub const rect = @import("rect.zig");
 pub const video = @import("video.zig");
+pub const vulkan = @import("vulkan.zig");
 
 // init
 
@@ -172,4 +173,20 @@ pub const getWindowProgressState = video.getWindowProgressState;
 pub const setWindowProgressValue = video.setWindowProgressValue;
 pub const getWindowProgressValue = video.getWindowProgressValue;
 pub const destroyWindow = video.destroyWindow;
+
+// vulkan
+
+pub const VkInstance = vulkan.VkInstance;
+pub const VkPhysicalDevice = vulkan.VkPhysicalDevice;
+pub const VkSurfaceKhr = vulkan.VkSurfaceKhr;
+pub const VkAllocationCallbacks = vulkan.VkAllocationCallbacks;
+pub const VkGetInstanceProcAddr = vulkan.VkGetInstanceProcAddr;
+pub const InstanceExtensions = vulkan.InstanceExtensions;
+pub const vulkanLoadLibrary = vulkan.loadLibrary;
+pub const vulkanGetVkGetInstanceProcAddr = vulkan.getVkGetInstanceProcAddr;
+pub const vulkanUnloadLibrary = vulkan.unloadLibrary;
+pub const vulkanGetInstanceExtensions = vulkan.getInstanceExtensions;
+pub const vulkanCreateSurface = vulkan.createSurface;
+pub const vulkanDestroySurface = vulkan.destroySurface;
+pub const vulkanGetPresentationSupport = vulkan.getPresentationSupport;
 
