@@ -628,19 +628,20 @@ pub const Color = SDL_Color;
 pub const FColor = SDL_FColor;
 /// a handle to an SDL_Palette struct
 pub const Palette = ?*SDL_Palette;
-pub const PixelFormatDetails = SDL_PixelFormatDetails;
+/// a handle to a constant SDL_PixelFormatDetails struct
+pub const PixelFormatDetails = *const SDL_PixelFormatDetails;
 
-pub extern fn SDL_GetPixelFormatName(format: PixelFormat) [*:0]const u8;
-pub extern fn SDL_GetMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_mask: ?*u32, g_mask: ?*u32, b_mask: ?*u32, a_mask: ?*u32) bool;
-pub extern fn SDL_GetPixelFormatForMasks(bpp: c_int, r_mask: u32, g_mask: u32, b_mask: u32, a_mask: u32) PixelFormat; 
-pub extern fn SDL_GetPixelFormatDetails(format: PixelFormat) ?*const SDL_PixelFormatDetails;
-pub extern fn SDL_CreatePalette(ncolors: c_int) ?*SDL_Palette;
-pub extern fn SDL_SetPaletteColors(palette: ?*SDL_Palette, colors: [*]const SDL_Color, first_color: c_int, ncolors: c_int) bool;
-pub extern fn SDL_DestroyPalette(palette: ?*SDL_Palette) void;
-pub extern fn SDL_MapRGB(format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8) u32;
-pub extern fn SDL_MapRGBA(format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8, a: u8) u32;
-pub extern fn SDL_GetRGB(pixel_value: u32, format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8) void;
-pub extern fn SDL_GetRGBA(pixel_value: u32, format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8, a: ?*u8) void;
+pub extern fn SDL_GetPixelFormatName(format: PixelFormat) callconv(.c) [*:0]const u8;
+pub extern fn SDL_GetMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_mask: ?*u32, g_mask: ?*u32, b_mask: ?*u32, a_mask: ?*u32) callconv(.c) bool;
+pub extern fn SDL_GetPixelFormatForMasks(bpp: c_int, r_mask: u32, g_mask: u32, b_mask: u32, a_mask: u32) callconv(.c) PixelFormat; 
+pub extern fn SDL_GetPixelFormatDetails(format: PixelFormat) callconv(.c) SDL_PixelFormatDetails;
+pub extern fn SDL_CreatePalette(ncolors: c_int) callconv(.c) ?*SDL_Palette;
+pub extern fn SDL_SetPaletteColors(palette: ?*SDL_Palette, colors: [*]const SDL_Color, first_color: c_int, ncolors: c_int) callconv(.c) bool;
+pub extern fn SDL_DestroyPalette(palette: ?*SDL_Palette) callconv(.c) void;
+pub extern fn SDL_MapRGB(format: SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8) callconv(.c) u32;
+pub extern fn SDL_MapRGBA(format: SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8, a: u8) callconv(.c) u32;
+pub extern fn SDL_GetRGB(pixel_value: u32, format: SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8) callconv(.c) void;
+pub extern fn SDL_GetRGBA(pixel_value: u32, format: SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8, a: ?*u8) callconv(.c) void;
 
 pub const getPixelFormatName = SDL_GetPixelFormatName;
 pub fn getMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_mask: ?*u32, g_mask: ?*u32, b_mask: ?*u32, a_mask: ?*u32) !void {

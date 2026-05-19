@@ -220,150 +220,150 @@ extern fn SDL_GetWindowProgressValue(window: *Window) callconv(.c) f32;
 extern fn SDL_DestroyWindow(window: *Window) callconv(.c) void;
 
 pub const getSystemTheme = SDL_GetSystemTheme;
-pub fn getDisplays() !DisplayList {
+pub inline fn getDisplays() !DisplayList {
     var count: c_int = 0;
     const displays = SDL_GetDisplays(&count) orelse return error.SDLError;
     return .{ .items = displays[0..@intCast(count)] };
 }
-pub fn getPrimaryDisplay() !DisplayId {
+pub inline fn getPrimaryDisplay() !DisplayId {
     const display_id = SDL_GetPrimaryDisplay();
     if (display_id == 0) return error.SDLError;
     return display_id;
 }
-pub fn getDisplayProperties(display_id: DisplayId) !PropertiesId {
+pub inline fn getDisplayProperties(display_id: DisplayId) !PropertiesId {
     const properties = SDL_GetDisplayProperties(display_id);
     if (properties == 0) return error.SDLError;
     return properties;
 }
-pub fn getDisplayName(display_id: DisplayId) ![*:0]const u8 {
+pub inline fn getDisplayName(display_id: DisplayId) ![*:0]const u8 {
     return SDL_GetDisplayName(display_id) orelse error.SDLError;
 }
-pub fn getDisplayBounds(display_id: DisplayId) !Rect {
+pub inline fn getDisplayBounds(display_id: DisplayId) !Rect {
     var rect: Rect = undefined;
     if (!SDL_GetDisplayBounds(display_id, &rect)) return error.SDLError;
     return rect;
 }
-pub fn getDisplayUsableBounds(display_id: DisplayId) !Rect {
+pub inline fn getDisplayUsableBounds(display_id: DisplayId) !Rect {
     var rect: Rect = undefined;
     if (!SDL_GetDisplayUsableBounds(display_id, &rect)) return error.SDLError;
     return rect;
 }
 pub const getNaturalDisplayOrientation = SDL_GetNaturalDisplayOrientation;
 pub const getCurrentDisplayOrientation = SDL_GetCurrentDisplayOrientation;
-pub fn getDisplayContentScale(display_id: DisplayId) !f32 {
+pub inline fn getDisplayContentScale(display_id: DisplayId) !f32 {
     const scale = SDL_GetDisplayContentScale(display_id);
     if (scale == 0.0) return error.SDLError;
     return scale;
 }
-pub fn getFullscreenDisplayModes(display_id: DisplayId) !DisplayModeList {
+pub inline fn getFullscreenDisplayModes(display_id: DisplayId) !DisplayModeList {
     var count: c_int = 0;
     const modes = SDL_GetFullscreenDisplayModes(display_id, &count) orelse return error.SDLError;
     return .{ .items = modes[0..@intCast(count)] };
 }
-pub fn getClosestFullscreenDisplayMode(display_id: DisplayId, w: c_int, h: c_int, refresh_rate: f32, include_high_density_modes: bool) !DisplayMode {
+pub inline fn getClosestFullscreenDisplayMode(display_id: DisplayId, w: c_int, h: c_int, refresh_rate: f32, include_high_density_modes: bool) !DisplayMode {
     var closest: DisplayMode = undefined;
     if (!SDL_GetClosestFullscreenDisplayMode(display_id, w, h, refresh_rate, include_high_density_modes, &closest)) return error.SDLError;
     return closest;
 }
-pub fn getDesktopDisplayMode(display_id: DisplayId) !*const DisplayMode {
+pub inline fn getDesktopDisplayMode(display_id: DisplayId) !*const DisplayMode {
     return SDL_GetDesktopDisplayMode(display_id) orelse error.SDLError;
 }
-pub fn getCurrentDisplayMode(display_id: DisplayId) !*const DisplayMode {
+pub inline fn getCurrentDisplayMode(display_id: DisplayId) !*const DisplayMode {
     return SDL_GetCurrentDisplayMode(display_id) orelse error.SDLError;
 }
-pub fn getDisplayForPoint(point: Point) !DisplayId {
+pub inline fn getDisplayForPoint(point: Point) !DisplayId {
     const display_id = SDL_GetDisplayForPoint(&point);
     if (display_id == 0) return error.SDLError;
     return display_id;
 }
-pub fn getDisplayForRect(rect: Rect) !DisplayId {
+pub inline fn getDisplayForRect(rect: Rect) !DisplayId {
     const display_id = SDL_GetDisplayForRect(&rect);
     if (display_id == 0) return error.SDLError;
     return display_id;
 }
-pub fn getDisplayForWindow(window: *Window) !DisplayId {
+pub inline fn getDisplayForWindow(window: *Window) !DisplayId {
     const display_id = SDL_GetDisplayForWindow(window);
     if (display_id == 0) return error.SDLError;
     return display_id;
 }
-pub fn getWindowPixelDensity(window: *Window) !f32 {
+pub inline fn getWindowPixelDensity(window: *Window) !f32 {
     const density = SDL_GetWindowPixelDensity(window);
     if (density == 0.0) return error.SDLError;
     return density;
 }
-pub fn getWindowDisplayScale(window: *Window) !f32 {
+pub inline fn getWindowDisplayScale(window: *Window) !f32 {
     const scale = SDL_GetWindowDisplayScale(window);
     if (scale == 0.0) return error.SDLError;
     return scale;
 }
-pub fn setWindowFullscreenMode(window: *Window, mode: ?*const DisplayMode) !void {
+pub inline fn setWindowFullscreenMode(window: *Window, mode: ?*const DisplayMode) !void {
     if (!SDL_SetWindowFullscreenMode(window, mode)) return error.SDLError;
 }
 pub const getWindowFullscreenMode = SDL_GetWindowFullscreenMode;
 pub const getWindowPixelFormat = SDL_GetWindowPixelFormat;
-pub fn getWindows() !WindowList {
+pub inline fn getWindows() !WindowList {
     var count: c_int = 0;
     const windows = SDL_GetWindows(&count) orelse return error.SDLError;
     return .{ .items = windows[0..@intCast(count)] };
 }
-pub fn createWindow(title: [*:0]const u8, w: c_int, h: c_int, flags: WindowFlags) !*Window {
+pub inline fn createWindow(title: [*:0]const u8, w: c_int, h: c_int, flags: WindowFlags) !*Window {
     return SDL_CreateWindow(title, w, h, flags) orelse error.SDLError;
 }
-pub fn createPopupWindow(parent: *Window, offset_x: c_int, offset_y: c_int, w: c_int, h: c_int, flags: WindowFlags) !*Window {
+pub inline fn createPopupWindow(parent: *Window, offset_x: c_int, offset_y: c_int, w: c_int, h: c_int, flags: WindowFlags) !*Window {
     return SDL_CreatePopupWindow(parent, offset_x, offset_y, w, h, flags) orelse error.SDLError;
 }
-pub fn getWindowId(window: *Window) !WindowId {
+pub inline fn getWindowId(window: *Window) !WindowId {
     const id = SDL_GetWindowID(window);
     if (id == 0) return error.SDLError;
     return id;
 }
-pub fn getWindowFromId(id: WindowId) !*Window {
+pub inline fn getWindowFromId(id: WindowId) !*Window {
     return SDL_GetWindowFromID(id) orelse error.SDLError;
 }
 pub const getWindowParent = SDL_GetWindowParent;
-pub fn getWindowProperties(window: *Window) !PropertiesId {
+pub inline fn getWindowProperties(window: *Window) !PropertiesId {
     const properties = SDL_GetWindowProperties(window);
     if (properties == 0) return error.SDLError;
     return properties;
 }
 pub const getWindowFlags = SDL_GetWindowFlags;
-pub fn setWindowTitle(window: *Window, title: [*:0]const u8) !void {
+pub inline fn setWindowTitle(window: *Window, title: [*:0]const u8) !void {
     if (!SDL_SetWindowTitle(window, title)) return error.SDLError;
 }
 pub const getWindowTitle = SDL_GetWindowTitle;
-pub fn setWindowPosition(window: *Window, x: c_int, y: c_int) !void {
+pub inline fn setWindowPosition(window: *Window, x: c_int, y: c_int) !void {
     if (!SDL_SetWindowPosition(window, x, y)) return error.SDLError;
 }
-pub fn getWindowPosition(window: *Window) !Position {
+pub inline fn getWindowPosition(window: *Window) !Position {
     var x: c_int = undefined;
     var y: c_int = undefined;
     if (!SDL_GetWindowPosition(window, &x, &y)) return error.SDLError;
     return .{ .x = x, .y = y };
 }
-pub fn setWindowSize(window: *Window, w: c_int, h: c_int) !void {
+pub inline fn setWindowSize(window: *Window, w: c_int, h: c_int) !void {
     if (!SDL_SetWindowSize(window, w, h)) return error.SDLError;
 }
-pub fn getWindowSize(window: *Window) !Size {
+pub inline fn getWindowSize(window: *Window) !Size {
     var w: c_int = undefined;
     var h: c_int = undefined;
     if (!SDL_GetWindowSize(window, &w, &h)) return error.SDLError;
     return .{ .w = w, .h = h };
 }
-pub fn getWindowSafeArea(window: *Window) !Rect {
+pub inline fn getWindowSafeArea(window: *Window) !Rect {
     var rect: Rect = undefined;
     if (!SDL_GetWindowSafeArea(window, &rect)) return error.SDLError;
     return rect;
 }
-pub fn setWindowAspectRatio(window: *Window, min_aspect: f32, max_aspect: f32) !void {
+pub inline fn setWindowAspectRatio(window: *Window, min_aspect: f32, max_aspect: f32) !void {
     if (!SDL_SetWindowAspectRatio(window, min_aspect, max_aspect)) return error.SDLError;
 }
-pub fn getWindowAspectRatio(window: *Window) !AspectRatio {
+pub inline fn getWindowAspectRatio(window: *Window) !AspectRatio {
     var min_aspect: f32 = undefined;
     var max_aspect: f32 = undefined;
     if (!SDL_GetWindowAspectRatio(window, &min_aspect, &max_aspect)) return error.SDLError;
     return .{ .min = min_aspect, .max = max_aspect };
 }
-pub fn getWindowBordersSize(window: *Window) !BorderSize {
+pub inline fn getWindowBordersSize(window: *Window) !BorderSize {
     var top: c_int = undefined;
     var left: c_int = undefined;
     var bottom: c_int = undefined;
@@ -371,114 +371,114 @@ pub fn getWindowBordersSize(window: *Window) !BorderSize {
     if (!SDL_GetWindowBordersSize(window, &top, &left, &bottom, &right)) return error.SDLError;
     return .{ .top = top, .left = left, .bottom = bottom, .right = right };
 }
-pub fn getWindowSizeInPixels(window: *Window) !Size {
+pub inline fn getWindowSizeInPixels(window: *Window) !Size {
     var w: c_int = undefined;
     var h: c_int = undefined;
     if (!SDL_GetWindowSizeInPixels(window, &w, &h)) return error.SDLError;
     return .{ .w = w, .h = h };
 }
-pub fn setWindowMinimumSize(window: *Window, min_w: c_int, min_h: c_int) !void {
+pub inline fn setWindowMinimumSize(window: *Window, min_w: c_int, min_h: c_int) !void {
     if (!SDL_SetWindowMinimumSize(window, min_w, min_h)) return error.SDLError;
 }
-pub fn getWindowMinimumSize(window: *Window) !Size {
+pub inline fn getWindowMinimumSize(window: *Window) !Size {
     var w: c_int = undefined;
     var h: c_int = undefined;
     if (!SDL_GetWindowMinimumSize(window, &w, &h)) return error.SDLError;
     return .{ .w = w, .h = h };
 }
-pub fn setWindowMaximumSize(window: *Window, max_w: c_int, max_h: c_int) !void {
+pub inline fn setWindowMaximumSize(window: *Window, max_w: c_int, max_h: c_int) !void {
     if (!SDL_SetWindowMaximumSize(window, max_w, max_h)) return error.SDLError;
 }
-pub fn getWindowMaximumSize(window: *Window) !Size {
+pub inline fn getWindowMaximumSize(window: *Window) !Size {
     var w: c_int = undefined;
     var h: c_int = undefined;
     if (!SDL_GetWindowMaximumSize(window, &w, &h)) return error.SDLError;
     return .{ .w = w, .h = h };
 }
-pub fn setWindowBordered(window: *Window, bordered: bool) !void {
+pub inline fn setWindowBordered(window: *Window, bordered: bool) !void {
     if (!SDL_SetWindowBordered(window, bordered)) return error.SDLError;
 }
-pub fn setWindowResizable(window: *Window, resizable: bool) !void {
+pub inline fn setWindowResizable(window: *Window, resizable: bool) !void {
     if (!SDL_SetWindowResizable(window, resizable)) return error.SDLError;
 }
-pub fn setWindowAlwaysOnTop(window: *Window, on_top: bool) !void {
+pub inline fn setWindowAlwaysOnTop(window: *Window, on_top: bool) !void {
     if (!SDL_SetWindowAlwaysOnTop(window, on_top)) return error.SDLError;
 }
-pub fn setWindowFillDocument(window: *Window, fill: bool) !void {
+pub inline fn setWindowFillDocument(window: *Window, fill: bool) !void {
     if (!SDL_SetWindowFillDocument(window, fill)) return error.SDLError;
 }
-pub fn showWindow(window: *Window) !void {
+pub inline fn showWindow(window: *Window) !void {
     if (!SDL_ShowWindow(window)) return error.SDLError;
 }
-pub fn hideWindow(window: *Window) !void {
+pub inline fn hideWindow(window: *Window) !void {
     if (!SDL_HideWindow(window)) return error.SDLError;
 }
-pub fn raiseWindow(window: *Window) !void {
+pub inline fn raiseWindow(window: *Window) !void {
     if (!SDL_RaiseWindow(window)) return error.SDLError;
 }
-pub fn maximizeWindow(window: *Window) !void {
+pub inline fn maximizeWindow(window: *Window) !void {
     if (!SDL_MaximizeWindow(window)) return error.SDLError;
 }
-pub fn minimizeWindow(window: *Window) !void {
+pub inline fn minimizeWindow(window: *Window) !void {
     if (!SDL_MinimizeWindow(window)) return error.SDLError;
 }
-pub fn restoreWindow(window: *Window) !void {
+pub inline fn restoreWindow(window: *Window) !void {
     if (!SDL_RestoreWindow(window)) return error.SDLError;
 }
-pub fn setWindowFullscreen(window: *Window, fullscreen: bool) !void {
+pub inline fn setWindowFullscreen(window: *Window, fullscreen: bool) !void {
     if (!SDL_SetWindowFullscreen(window, fullscreen)) return error.SDLError;
 }
-pub fn syncWindow(window: *Window) !void {
+pub inline fn syncWindow(window: *Window) !void {
     if (!SDL_SyncWindow(window)) return error.SDLError;
 }
-pub fn setWindowKeyboardGrab(window: *Window, grabbed: bool) !void {
+pub inline fn setWindowKeyboardGrab(window: *Window, grabbed: bool) !void {
     if (!SDL_SetWindowKeyboardGrab(window, grabbed)) return error.SDLError;
 }
-pub fn setWindowMouseGrab(window: *Window, grabbed: bool) !void {
+pub inline fn setWindowMouseGrab(window: *Window, grabbed: bool) !void {
     if (!SDL_SetWindowMouseGrab(window, grabbed)) return error.SDLError;
 }
 pub const getWindowKeyboardGrab = SDL_GetWindowKeyboardGrab;
 pub const getWindowMouseGrab = SDL_GetWindowMouseGrab;
 pub const getGrabbedWindow = SDL_GetGrabbedWindow;
-pub fn setWindowMouseRect(window: *Window, rect: ?*const Rect) !void {
+pub inline fn setWindowMouseRect(window: *Window, rect: ?*const Rect) !void {
     if (!SDL_SetWindowMouseRect(window, rect)) return error.SDLError;
 }
 pub const getWindowMouseRect = SDL_GetWindowMouseRect;
-pub fn setWindowOpacity(window: *Window, opacity: f32) !void {
+pub inline fn setWindowOpacity(window: *Window, opacity: f32) !void {
     if (!SDL_SetWindowOpacity(window, opacity)) return error.SDLError;
 }
-pub fn getWindowOpacity(window: *Window) !f32 {
+pub inline fn getWindowOpacity(window: *Window) !f32 {
     const opacity = SDL_GetWindowOpacity(window);
     if (opacity < 0.0) return error.SDLError;
     return opacity;
 }
-pub fn setWindowParent(window: *Window, parent: ?*Window) !void {
+pub inline fn setWindowParent(window: *Window, parent: ?*Window) !void {
     if (!SDL_SetWindowParent(window, parent)) return error.SDLError;
 }
-pub fn setWindowModal(window: *Window, modal: bool) !void {
+pub inline fn setWindowModal(window: *Window, modal: bool) !void {
     if (!SDL_SetWindowModal(window, modal)) return error.SDLError;
 }
-pub fn setWindowFocusable(window: *Window, focusable: bool) !void {
+pub inline fn setWindowFocusable(window: *Window, focusable: bool) !void {
     if (!SDL_SetWindowFocusable(window, focusable)) return error.SDLError;
 }
-pub fn showWindowSystemMenu(window: *Window, x: c_int, y: c_int) !void {
+pub inline fn showWindowSystemMenu(window: *Window, x: c_int, y: c_int) !void {
     if (!SDL_ShowWindowSystemMenu(window, x, y)) return error.SDLError;
 }
-pub fn flashWindow(window: *Window, operation: FlashOperation) !void {
+pub inline fn flashWindow(window: *Window, operation: FlashOperation) !void {
     if (!SDL_FlashWindow(window, operation)) return error.SDLError;
 }
-pub fn setWindowProgressState(window: *Window, state: ProgressState) !void {
+pub inline fn setWindowProgressState(window: *Window, state: ProgressState) !void {
     if (!SDL_SetWindowProgressState(window, state)) return error.SDLError;
 }
-pub fn getWindowProgressState(window: *Window) !ProgressState {
+pub inline fn getWindowProgressState(window: *Window) !ProgressState {
     const state = SDL_GetWindowProgressState(window);
     if (state == .invalid) return error.SDLError;
     return state;
 }
-pub fn setWindowProgressValue(window: *Window, value: f32) !void {
+pub inline fn setWindowProgressValue(window: *Window, value: f32) !void {
     if (!SDL_SetWindowProgressValue(window, value)) return error.SDLError;
 }
-pub fn getWindowProgressValue(window: *Window) !f32 {
+pub inline fn getWindowProgressValue(window: *Window) !f32 {
     const value = SDL_GetWindowProgressValue(window);
     if (value < 0.0) return error.SDLError;
     return value;
