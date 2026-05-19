@@ -54,6 +54,8 @@
 //!
 //! The matrix coefficients are used to convert between YCbCr and RGB colors.
 
+const SDLError = @import("error.zig").SDLError;
+
 pub const PixelType = enum(u4) {
     unknown,
     index1,
@@ -604,6 +606,12 @@ pub const SDL_PixelFormatDetails = extern struct {
     a_shift: u8,
 };
 
+pub const Color = SDL_Color;
+pub const FColor = SDL_FColor;
+/// a handle to an SDL_Palette struct
+pub const Palette = ?*SDL_Palette;
+pub const PixelFormatDetails = SDL_PixelFormatDetails;
+
 pub extern fn SDL_GetPixelFormatName(format: PixelFormat) [*:0]const u8;
 pub extern fn SDL_GetMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_mask: ?*u32, g_mask: ?*u32, b_mask: ?*u32, a_mask: ?*u32) bool;
 pub extern fn SDL_GetPixelFormatForMasks(bpp: c_int, r_mask: u32, g_mask: u32, b_mask: u32, a_mask: u32) PixelFormat; 
@@ -615,3 +623,23 @@ pub extern fn SDL_MapRGB(format: ?*const SDL_PixelFormatDetails, palette: ?*cons
 pub extern fn SDL_MapRGBA(format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: u8, g: u8, b: u8, a: u8) u32;
 pub extern fn SDL_GetRGB(pixel_value: u32, format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8) void;
 pub extern fn SDL_GetRGBA(pixel_value: u32, format: ?*const SDL_PixelFormatDetails, palette: ?*const SDL_Palette, r: ?*u8, g: ?*u8, b: ?*u8, a: ?*u8) void;
+
+pub const getPixelFormatName = SDL_GetPixelFormatName;
+pub fn getMasksForPixelFormat(format: PixelFormat, bpp: ?*c_int, r_mask: ?*u32, g_mask: ?*u32, b_mask: ?*u32, a_mask: ?*u32) !void {
+    if (!SDL_GetMasksForPixelFormat(format, bpp, r_mask, g_mask, b_mask, a_mask)) return error.SDLError;
+}
+pub const getPixelFormatForMasks = SDL_GetPixelFormatForMasks;
+pub fn getPixelFormatDetails(format: PixelFormat) !*const PixelFormatDetails {
+    return if (SDL_GetPixelFormatDetails(format)) |details| details else error.SDLError;
+}
+pub fn createPalette(n_colors: c_int) !Palette {
+    return if (SDL_CreatePalette(n_colors)) |palette| palette else error.SDLError;
+}
+pub fn setPaletteColors(palette: Palette, colors: []const Color, first_color: c_int) !void {
+    if (!SDL_SetPaletteColors(palette, colors.ptr, first_color, @intCast(colors.len))) return error.SDLError;
+}
+pub const destroyPalette = SDL_DestroyPalette;
+pub const mapRGB = SDL_MapRGB;
+pub const mapRGBA = SDL_MapRGBA;
+pub const getRGB = SDL_GetRGB;
+pub const getRGBA = SDL_GetRGBA;

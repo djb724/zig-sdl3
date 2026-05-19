@@ -3,15 +3,14 @@ const sdl = @import("root.zig");
 
 pub fn main(init: std.process.Init) void {
     _ = init;
-    const success = sdl.init(.{
+    sdl.init(.{
         .audio = true,
         .video = true,
-    });
-    defer sdl.quit();
-    if (!success) {
-        std.debug.print("Init failed.", .{});
+    }) catch {
+        std.debug.print("Init failed.\n", .{});
         return;
-    }
+    };
+    defer sdl.quit();
 
     const target: sdl.InitFlags = .{
         .audio = true,
