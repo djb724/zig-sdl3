@@ -1,19 +1,12 @@
 const SDLError = @import("error.zig").SDLError;
 const pixels = @import("pixels.zig");
+const rect_ = @import("rect.zig");
 
 pub const DisplayId = u32;
 pub const WindowId = u32;
 pub const PropertiesId = u32;
-pub const Point = extern struct {
-    x: c_int,
-    y: c_int,
-};
-pub const Rect = extern struct {
-    x: c_int,
-    y: c_int,
-    w: c_int,
-    h: c_int,
-};
+pub const Point = rect_.Point;
+pub const Rect = rect_.Rect;
 pub const SystemTheme = enum(c_int) {
     unknown,
     light,

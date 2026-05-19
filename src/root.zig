@@ -1,5 +1,6 @@
 pub const init_ = @import("init.zig");
 pub const pixels = @import("pixels.zig");
+pub const rect = @import("rect.zig");
 pub const video = @import("video.zig");
 
 // init
@@ -47,13 +48,38 @@ pub const mapRGBA = pixels.SDL_MapRGBA;
 pub const getRGB = pixels.SDL_GetRGB;
 pub const getRGBA = pixels.SDL_GetRGBA;
 
+// rect
+
+pub const Point = rect.Point;
+pub const FPoint = rect.FPoint;
+pub const Rect = rect.Rect;
+pub const FRect = rect.FRect;
+pub const Line = rect.Line;
+pub const FLine = rect.FLine;
+pub const rectToFRect = rect.rectToFRect;
+pub const pointInRect = rect.pointInRect;
+pub const rectEmpty = rect.rectEmpty;
+pub const rectsEqual = rect.rectsEqual;
+pub const hasRectIntersection = rect.hasRectIntersection;
+pub const getRectIntersection = rect.getRectIntersection;
+pub const getRectUnion = rect.getRectUnion;
+pub const getRectEnclosingPoints = rect.getRectEnclosingPoints;
+pub const getRectAndLineIntersection = rect.getRectAndLineIntersection;
+pub const pointInRectFloat = rect.pointInRectFloat;
+pub const rectEmptyFloat = rect.rectEmptyFloat;
+pub const rectsEqualEpsilon = rect.rectsEqualEpsilon;
+pub const rectsEqualFloat = rect.rectsEqualFloat;
+pub const hasRectIntersectionFloat = rect.hasRectIntersectionFloat;
+pub const getRectIntersectionFloat = rect.getRectIntersectionFloat;
+pub const getRectUnionFloat = rect.getRectUnionFloat;
+pub const getRectEnclosingPointsFloat = rect.getRectEnclosingPointsFloat;
+pub const getRectAndLineIntersectionFloat = rect.getRectAndLineIntersectionFloat;
+
 // video
 
 pub const DisplayId = video.DisplayId;
 pub const WindowId = video.WindowId;
 pub const PropertiesId = video.PropertiesId;
-pub const Point = video.Point;
-pub const Rect = video.Rect;
 pub const SystemTheme = video.SystemTheme;
 pub const DisplayMode = video.DisplayMode;
 pub const DisplayOrientation = video.DisplayOrientation;
