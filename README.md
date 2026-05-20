@@ -17,9 +17,16 @@ SDL3 is a C library. The goal is to provide seamless zig bindings to allow faste
 
 ### Functions
 
-Functions will become `camelCase` with out the `SDL_` prefix. i.e. ```SDL_CreateWindow(...)``` will become ```sdl.createWindow(...)```.
+Functions will become `camelCase` with out the `SDL_` prefix. I.e. ```SDL_CreateWindow(...)``` will become ```sdl.createWindow(...)```.
 
 If a function can fail, this library will return an error union with the original return type and `error.SDLError`. Note that `sdl.getError()` can still be used to get the error message afterward.
+
+If a function allocates memory, it will take an allocator as a parameter. I.e.:
+
+```zig
+const windows: []Window = try sdl.getWindows(allocator);
+defer allocator.free(windows);
+```
 
 ### Bitflags
 
