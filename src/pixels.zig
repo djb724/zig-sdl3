@@ -54,8 +54,9 @@
 //!
 //! The matrix coefficients are used to convert between YCbCr and RGB colors.
 
-const SDLError = @import("error.zig").SDLError;
+const builtin = @import("builtin");
 
+const SDLError = @import("error.zig").SDLError;
 
 pub const PixelFormatFourCC = packed struct(u32) {
     a: u8,
@@ -199,6 +200,15 @@ pub const PixelFormatNonFourCC = packed struct(u32) {
     pub const argb128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b308010));
     pub const bgra128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b508010));
     pub const abgr128_float: PixelFormatNonFourCC = @bitCast(@as(u32, 0x1b608010));
+
+    pub const rgba32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) rgba8888 else abgr8888;
+    pub const argb32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) argb8888 else bgra8888;
+    pub const bgra32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) bgra8888 else argb8888;
+    pub const abgr32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) abgr8888 else rgba8888;
+    pub const rgbx32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) rgbx8888 else xbgr8888;
+    pub const xrgb32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) xrgb8888 else bgrx8888;
+    pub const bgrx32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) bgrx8888 else xrgb8888;
+    pub const xbgr32: PixelFormatNonFourCC = if (builtin.target.cpu.arch.endian() == .big) xbgr8888 else rgbx8888;
 
     pub inline fn isIndexed(self: PixelFormat) bool {
         return self.@"type" == .index1 or self.@"type" == .index2 or self.@"type" == .index4 or self.@"type" == .index8;
@@ -385,26 +395,6 @@ pub const PixelFormat = packed union {
     pub const abgr128_float: PixelFormat = .{ .non_four_cc = NonFourCC.abgr128_float };
 };
 
-// TODO: add these
-// #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-// SDL_PIXELFORMAT_RGBA32 = SDL_PIXELFORMAT_RGBA8888,
-// SDL_PIXELFORMAT_ARGB32 = SDL_PIXELFORMAT_ARGB8888,
-// SDL_PIXELFORMAT_BGRA32 = SDL_PIXELFORMAT_BGRA8888,
-// SDL_PIXELFORMAT_ABGR32 = SDL_PIXELFORMAT_ABGR8888,
-// SDL_PIXELFORMAT_RGBX32 = SDL_PIXELFORMAT_RGBX8888,
-// SDL_PIXELFORMAT_XRGB32 = SDL_PIXELFORMAT_XRGB8888,
-// SDL_PIXELFORMAT_BGRX32 = SDL_PIXELFORMAT_BGRX8888,
-// SDL_PIXELFORMAT_XBGR32 = SDL_PIXELFORMAT_XBGR8888
-// #else
-// SDL_PIXELFORMAT_RGBA32 = SDL_PIXELFORMAT_ABGR8888,
-// SDL_PIXELFORMAT_ARGB32 = SDL_PIXELFORMAT_BGRA8888,
-// SDL_PIXELFORMAT_BGRA32 = SDL_PIXELFORMAT_ARGB8888,
-// SDL_PIXELFORMAT_ABGR32 = SDL_PIXELFORMAT_RGBA8888,
-// SDL_PIXELFORMAT_RGBX32 = SDL_PIXELFORMAT_XBGR8888,
-// SDL_PIXELFORMAT_XRGB32 = SDL_PIXELFORMAT_BGRX8888,
-// SDL_PIXELFORMAT_BGRX32 = SDL_PIXELFORMAT_XRGB8888,
-// SDL_PIXELFORMAT_XBGR32 = SDL_PIXELFORMAT_RGBX8888
-// #endif
 
 pub const ColorType = enum(u4) {
     unknown,
