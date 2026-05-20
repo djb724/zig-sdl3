@@ -1,3 +1,4 @@
+pub const audio = @import("audio.zig");
 pub const blend_mode = @import("blend_mode.zig");
 pub const events = @import("events.zig");
 pub const gamepad = @import("gamepad.zig");
@@ -14,6 +15,85 @@ pub const touch = @import("touch.zig");
 pub const video = @import("video.zig");
 pub const vulkan = @import("vulkan.zig");
 
+// audio
+
+pub const AudioStream = audio.AudioStream;
+pub const AudioIOStream = audio.IOStream;
+pub const AUDIO_DEVICE_DEFAULT_PLAYBACK = audio.DEFAULT_PLAYBACK;
+pub const AUDIO_DEVICE_DEFAULT_RECORDING = audio.DEFAULT_RECORDING;
+pub const AUDIO_MASK_BITSIZE = audio.MASK_BITSIZE;
+pub const AUDIO_MASK_FLOAT = audio.MASK_FLOAT;
+pub const AUDIO_MASK_BIG_ENDIAN = audio.MASK_BIG_ENDIAN;
+pub const AUDIO_MASK_SIGNED = audio.MASK_SIGNED;
+pub const PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN = audio.PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN;
+pub const AudioFormat = audio.AudioFormat;
+pub const AudioSpec = audio.AudioSpec;
+pub const AudioDeviceFormat = audio.AudioDeviceFormat;
+pub const AudioStreamFormat = audio.AudioStreamFormat;
+pub const Wav = audio.Wav;
+pub const ConvertedAudio = audio.ConvertedAudio;
+pub const AudioStreamDataCompleteCallback = audio.AudioStreamDataCompleteCallback;
+pub const AudioStreamCallback = audio.AudioStreamCallback;
+pub const AudioPostmixCallback = audio.AudioPostmixCallback;
+pub const getNumAudioDrivers = audio.getNumAudioDrivers;
+pub const getAudioDriver = audio.getAudioDriver;
+pub const getCurrentAudioDriver = audio.getCurrentAudioDriver;
+pub const getAudioPlaybackDevices = audio.getAudioPlaybackDevices;
+pub const getAudioRecordingDevices = audio.getAudioRecordingDevices;
+pub const getAudioDeviceName = audio.getAudioDeviceName;
+pub const getAudioDeviceFormat = audio.getAudioDeviceFormat;
+pub const getAudioDeviceChannelMap = audio.getAudioDeviceChannelMap;
+pub const openAudioDevice = audio.openAudioDevice;
+pub const isAudioDevicePhysical = audio.isAudioDevicePhysical;
+pub const isAudioDevicePlayback = audio.isAudioDevicePlayback;
+pub const pauseAudioDevice = audio.pauseAudioDevice;
+pub const resumeAudioDevice = audio.resumeAudioDevice;
+pub const audioDevicePaused = audio.audioDevicePaused;
+pub const getAudioDeviceGain = audio.getAudioDeviceGain;
+pub const setAudioDeviceGain = audio.setAudioDeviceGain;
+pub const closeAudioDevice = audio.closeAudioDevice;
+pub const bindAudioStreams = audio.bindAudioStreams;
+pub const bindAudioStream = audio.bindAudioStream;
+pub const unbindAudioStreams = audio.unbindAudioStreams;
+pub const unbindAudioStream = audio.unbindAudioStream;
+pub const getAudioStreamDevice = audio.getAudioStreamDevice;
+pub const createAudioStream = audio.createAudioStream;
+pub const getAudioStreamProperties = audio.getAudioStreamProperties;
+pub const getAudioStreamFormat = audio.getAudioStreamFormat;
+pub const setAudioStreamFormat = audio.setAudioStreamFormat;
+pub const getAudioStreamFrequencyRatio = audio.getAudioStreamFrequencyRatio;
+pub const setAudioStreamFrequencyRatio = audio.setAudioStreamFrequencyRatio;
+pub const getAudioStreamGain = audio.getAudioStreamGain;
+pub const setAudioStreamGain = audio.setAudioStreamGain;
+pub const getAudioStreamInputChannelMap = audio.getAudioStreamInputChannelMap;
+pub const getAudioStreamOutputChannelMap = audio.getAudioStreamOutputChannelMap;
+pub const setAudioStreamInputChannelMap = audio.setAudioStreamInputChannelMap;
+pub const setAudioStreamOutputChannelMap = audio.setAudioStreamOutputChannelMap;
+pub const putAudioStreamData = audio.putAudioStreamData;
+pub const putAudioStreamDataNoCopy = audio.putAudioStreamDataNoCopy;
+pub const putAudioStreamPlanarData = audio.putAudioStreamPlanarData;
+pub const getAudioStreamData = audio.getAudioStreamData;
+pub const getAudioStreamAvailable = audio.getAudioStreamAvailable;
+pub const getAudioStreamQueued = audio.getAudioStreamQueued;
+pub const flushAudioStream = audio.flushAudioStream;
+pub const clearAudioStream = audio.clearAudioStream;
+pub const pauseAudioStreamDevice = audio.pauseAudioStreamDevice;
+pub const resumeAudioStreamDevice = audio.resumeAudioStreamDevice;
+pub const audioStreamDevicePaused = audio.audioStreamDevicePaused;
+pub const lockAudioStream = audio.lockAudioStream;
+pub const unlockAudioStream = audio.unlockAudioStream;
+pub const setAudioStreamGetCallback = audio.setAudioStreamGetCallback;
+pub const setAudioStreamPutCallback = audio.setAudioStreamPutCallback;
+pub const destroyAudioStream = audio.destroyAudioStream;
+pub const openAudioDeviceStream = audio.openAudioDeviceStream;
+pub const setAudioPostmixCallback = audio.setAudioPostmixCallback;
+pub const loadWavIo = audio.loadWavIo;
+pub const loadWav = audio.loadWav;
+pub const mixAudio = audio.mixAudio;
+pub const convertAudioSamples = audio.convertAudioSamples;
+pub const getAudioFormatName = audio.getAudioFormatName;
+pub const getSilenceValueForFormat = audio.getSilenceValueForFormat;
+
 // blend mode
 
 pub const BlendMode = blend_mode.BlendMode;
@@ -23,7 +103,7 @@ pub const composeCustomBlendMode = blend_mode.composeCustomBlendMode;
 
 // events
 
-pub const AudioDeviceId = events.AudioDeviceId;
+pub const AudioDeviceId = audio.AudioDeviceId;
 pub const CameraId = events.CameraId;
 pub const SensorId = events.SensorId;
 pub const EventType = events.EventType;
