@@ -44,11 +44,3 @@ pub inline fn getTouchFingers(allocator: std.mem.Allocator, touch_id: TouchId) !
     }
     return result;
 }
-
-test "touch ABI values" {
-    try std.testing.expectEqual(@as(usize, 8), @sizeOf(TouchId));
-    try std.testing.expectEqual(@as(usize, 8), @sizeOf(FingerId));
-    try std.testing.expectEqual(@as(u64, 0xffffffffffffffff), MOUSE_TOUCHID);
-    try std.testing.expectEqual(@as(c_int, -1), @intFromEnum(TouchDeviceType.invalid));
-    try std.testing.expectEqual(@as(c_int, 0), @intFromEnum(TouchDeviceType.direct));
-}

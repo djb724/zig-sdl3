@@ -14,52 +14,43 @@ pub const MASK_BIG_ENDIAN: c_int = 1 << 12;
 pub const MASK_SIGNED: c_int = 1 << 15;
 pub const PROP_AUDIOSTREAM_AUTO_CLEANUP_BOOLEAN = "SDL.audiostream.auto_cleanup";
 
-pub const AudioFormat = enum(c_int) {
-    unknown = 0x0000,
-    u8 = 0x0008,
-    s8 = 0x8008,
-    s16le = 0x8010,
-    s16be = 0x9010,
-    s32le = 0x8020,
-    s32be = 0x9020,
-    f32le = 0x8120,
-    f32be = 0x9120,
-    _,
+pub const AudioFormat = packed struct(u16) {
+    bitsize: u8,
+    float: u4,
+    bigendian: u3,
+    signed: bool,
+
+    pub fn toInt(self: AudioFormat) u16 {
+        return @intFromEnum(self);
+    }
+    pub fn isInt(self: AudioFormat) bool {
+        return self.float == 0;
+    }
+    pub fn isFloat(self: AudioFormat) bool {
+        return self.float != 0;
+    }
+    pub fn isBigEndian(self: AudioFormat) bool {
+        return self.bigendian != 0;
+    }
+    pub fn isLittleEndian(self: AudioFormat) bool {
+        return self.bigendian == 0;
+    }
+
+    pub const unknown: AudioFormat = @bitCast(@as(u16, 0));
+    pub const @"u8": AudioFormat = @bitCast(@as(u16, 0x0008));
+    pub const s8: AudioFormat = @bitCast(@as(u16, 0x8008));
+    pub const s16le: AudioFormat = @bitCast(@as(u16, 0x8010));
+    pub const s16be: AudioFormat = @bitCast(@as(u16, 0x9010));
+    pub const s32le: AudioFormat = @bitCast(@as(u16, 0x8020));
+    pub const s32be: AudioFormat = @bitCast(@as(u16, 0x9020));
+    pub const f32le: AudioFormat = @bitCast(@as(u16, 0x8120));
+    pub const f32be: AudioFormat = @bitCast(@as(u16, 0x9120));
+
     pub const s16: AudioFormat = if (builtin.target.cpu.arch.endian() == .little) .s16le else .s16be;
     pub const s32: AudioFormat = if (builtin.target.cpu.arch.endian() == .little) .s32le else .s32be;
     pub const @"f32": AudioFormat = if (builtin.target.cpu.arch.endian() == .little) .f32le else .f32be;
-    pub fn define(signed: bool, big_endian: bool, float: bool, size: c_int) AudioFormat {
-        const value = (@as(c_int, @intFromBool(signed)) << 15) | (@as(c_int, @intFromBool(big_endian)) << 12) | (@as(c_int, @intFromBool(float)) << 8) | (size & MASK_BITSIZE);
-        return @enumFromInt(value);
-    }
-    pub fn toInt(self: AudioFormat) c_int {
-        return @intFromEnum(self);
-    }
-    pub fn bitSize(self: AudioFormat) c_int {
-        return self.toInt() & MASK_BITSIZE;
-    }
-    pub fn byteSize(self: AudioFormat) c_int {
-        return self.bitSize() / 8;
-    }
-    pub fn isFloat(self: AudioFormat) bool {
-        return (self.toInt() & MASK_FLOAT) != 0;
-    }
-    pub fn isInt(self: AudioFormat) bool {
-        return !self.isFloat();
-    }
-    pub fn isBigEndian(self: AudioFormat) bool {
-        return (self.toInt() & MASK_BIG_ENDIAN) != 0;
-    }
-    pub fn isLittleEndian(self: AudioFormat) bool {
-        return !self.isBigEndian();
-    }
-    pub fn isSigned(self: AudioFormat) bool {
-        return (self.toInt() & MASK_SIGNED) != 0;
-    }
-    pub fn isUnsigned(self: AudioFormat) bool {
-        return !self.isSigned();
-    }
 };
+
 pub const AudioSpec = extern struct {
     format: AudioFormat,
     channels: c_int,
