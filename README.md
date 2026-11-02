@@ -44,7 +44,7 @@ pub fn build(b: *std.Build) void {
 SDL3 is a C library. The goal is to provide seamless zig bindings to allow faster, less error-prone development by leveraging zig's language features. Also provide idiomatic naming conventions without the SDL_prefix.
 
 - Datatypes and structs will become `PascalCase` without the `SDL_` prefix. I.e. ```SDL_Window``` will become ```sdl.Window```.
-- Enums will be implemented as zig enums with the same internal values in `PascalCase` without the `SDL_` prefix.
+- Enums will be implemented as zig enums with the same internal values in `snake_case` without the `SDL_` prefix.
 
 ### Functions
 
