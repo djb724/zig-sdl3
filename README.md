@@ -1,12 +1,43 @@
 # zig-sdl3
 
-## What is it?
-
 Simple DirectMedia Layer (SDL) is a cross-platform library designed to expose low-level access to window management, audio, controlls, and graphics systems. Often used for games, video software, emulators, and more.
 
 You can find the original documentation [here](https://wiki.libsdl.org/SDL3/FrontPage).
 
 Their official repo can be found [here](https://github.com/libsdl-org/SDL/tree/main).
+
+## Installation
+
+Fetch the dependency:
+
+```sh
+zig fetch --save git+https://github.com/djb724/zig-sdl3.git
+```
+
+In your build.zig:
+
+```zig
+pub fn build(b: *std.Build) void {
+    ...
+    const sdl3_dep = b.dependency("zig_sdl3", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    const sdl3 = sdl3_dep.module("zig_sdl3");
+    const exe = b.addExecutable(.{
+        .name = "my_app",
+        .root_module = b.createModule(.{
+            .root_source_file = b.path("src/main.zig"),
+            .target = target,
+            .optimize = optimize,
+            .imports = &.{
+                .{ .name = "sdl3", .module = sdl3 },
+            },
+        }),
+    });
+    b.installArtifact(exe);
+}
+```
 
 ## What are you doing?
 
