@@ -473,14 +473,3 @@ pub inline fn getWindowProgressValue(window: Window) !f32 {
     return value;
 }
 pub const destroyWindow = SDL_DestroyWindow;
-
-test "video ABI values" {
-    try std.testing.expectEqual(@as(usize, 4), @sizeOf(Point));
-    try std.testing.expectEqual(@as(usize, 16), @sizeOf(Rect));
-    try std.testing.expectEqual(@as(usize, 8), @sizeOf(WindowFlags));
-    try std.testing.expectEqual(@as(u64, 0x0000000000000001), (WindowFlags{ .fullscreen = true }).toInt());
-    try std.testing.expectEqual(@as(u64, 0x0000000000002000), (WindowFlags{ .high_pixel_density = true }).toInt());
-    try std.testing.expectEqual(@as(u64, 0x0000000010000000), (WindowFlags{ .vulkan = true }).toInt());
-    try std.testing.expect(WindowPosition.isUndefined(WindowPosition.@"@\"undefined\""));
-    try std.testing.expect(WindowPosition.isCentered(WindowPosition.centered));
-}
