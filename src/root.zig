@@ -1,6 +1,7 @@
 pub const audio = @import("audio.zig");
 pub const blend_mode = @import("blend_mode.zig");
 pub const events = @import("events.zig");
+pub const filesystem = @import("filesystem.zig");
 pub const gamepad = @import("gamepad.zig");
 pub const init_ = @import("init.zig");
 pub const joystick = @import("joystick.zig");
@@ -11,6 +12,7 @@ pub const pen = @import("pen.zig");
 pub const pixels = @import("pixels.zig");
 pub const rect = @import("rect.zig");
 pub const scancode = @import("scancode.zig");
+pub const storage = @import("storage.zig");
 pub const touch = @import("touch.zig");
 pub const video = @import("video.zig");
 pub const vulkan = @import("vulkan.zig");
@@ -635,3 +637,47 @@ pub const vulkanCreateSurface = vulkan.createSurface;
 pub const vulkanDestroySurface = vulkan.destroySurface;
 pub const vulkanGetPresentationSupport = vulkan.getPresentationSupport;
 
+// filesystem
+
+pub const Time = filesystem.Time;
+pub const Folder = filesystem.Folder;
+pub const PathType = filesystem.PathType;
+pub const PathInfo = filesystem.PathInfo;
+pub const GlobFlags = filesystem.GlobFlags;
+pub const EnumerationResult = filesystem.EnumerationResult;
+pub const EnumerateDirectoryCallback = filesystem.EnumerateDirectoryCallback;
+pub const getBasePath = filesystem.getBasePath;
+pub const getPrefPath = filesystem.getPrefPath;
+pub const getUserFolder = filesystem.getUserFolder;
+pub const createDirectory = filesystem.createDirectory;
+pub const enumerateDirectory = filesystem.enumerateDirectory;
+pub const removePath = filesystem.removePath;
+pub const renamePath = filesystem.renamePath;
+pub const copyFile = filesystem.copyFile;
+pub const getPathInfo = filesystem.getPathInfo;
+pub const pathExists = filesystem.pathExists;
+pub const globDirectory = filesystem.globDirectory;
+pub const getCurrentDirectory = filesystem.getCurrentDirectory;
+
+// storage
+
+pub const Storage = storage.Storage;
+pub const StorageInterface = storage.StorageInterface;
+pub const openTitleStorage = storage.openTitleStorage;
+pub const openUserStorage = storage.openUserStorage;
+pub const openFileStorage = storage.openFileStorage;
+pub const openStorage = storage.openStorage;
+pub const closeStorage = storage.closeStorage;
+pub const storageReady = storage.storageReady;
+pub const getStorageFileSize = storage.getStorageFileSize;
+pub const readStorageFile = storage.readStorageFile;
+pub const writeStorageFile = storage.writeStorageFile;
+pub const createStorageDirectory = storage.createStorageDirectory;
+pub const enumerateStorageDirectory = storage.enumerateStorageDirectory;
+pub const removeStoragePath = storage.removeStoragePath;
+pub const renameStoragePath = storage.renameStoragePath;
+pub const copyStorageFile = storage.copyStorageFile;
+pub const getStoragePathInfo = storage.getStoragePathInfo;
+pub const storagePathExists = storage.storagePathExists;
+pub const getStorageSpaceRemaining = storage.getStorageSpaceRemaining;
+pub const globStorageDirectory = storage.globStorageDirectory;
