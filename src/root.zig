@@ -1,5 +1,6 @@
 pub const audio = @import("audio.zig");
 pub const blend_mode = @import("blend_mode.zig");
+pub const error_ = @import("error.zig");
 pub const events = @import("events.zig");
 pub const filesystem = @import("filesystem.zig");
 pub const gamepad = @import("gamepad.zig");
@@ -636,6 +637,19 @@ pub const vulkanGetInstanceExtensions = vulkan.getInstanceExtensions;
 pub const vulkanCreateSurface = vulkan.createSurface;
 pub const vulkanDestroySurface = vulkan.destroySurface;
 pub const vulkanGetPresentationSupport = vulkan.getPresentationSupport;
+
+// error
+
+pub const SDLError = error_.SDLError;
+pub const max_error_message_len = error_.max_error_message_len;
+pub const setError = error_.setError;
+pub const setErrorPrintf = error_.setErrorPrintf;
+pub const setErrorV = error_.setErrorV;
+pub const outOfMemory = error_.outOfMemory;
+pub const getError = error_.getError;
+pub const clearError = error_.clearError;
+pub const unsupported = error_.unsupported;
+pub const invalidParamError = error_.invalidParamError;
 
 // filesystem
 
